@@ -1,60 +1,34 @@
 import { PDFDocument, rgb } from 'pdf-lib';
 import fontkit from '@pdf-lib/fontkit';
 
-const generatePDF = async (text) => {
-  const fontUrls = ['/fonts/QEDavidReid.ttf', '/fonts/QEVickyCaulfield.ttf', '/fonts/QETonyFlores.ttf', '/fonts/QEHerbertCooper.ttf', '/fonts/QEJeffDungan.ttf','/fonts/QEVRead.ttf'];
+const generatePDF = async (text, fontsize , lineheight , margin) => {
   const pdfDoc = await PDFDocument.create();
   pdfDoc.registerFontkit(fontkit);
+  const fontUrls = ['/fonts/QEDavidReid.ttf', '/fonts/QEVickyCaulfield.ttf', '/fonts/QETonyFlores.ttf', '/fonts/QEHerbertCooper.ttf', '/fonts/QEVRead.ttf'];
   const fonts = await Promise.all(fontUrls.map(url => fetch(url).then(response => response.arrayBuffer())));
   const embeddedFonts = await Promise.all(fonts.map(font => pdfDoc.embedFont(font)));
 
 
-  const fontSize = 24;
+  const fontSize = fontsize;
   const fontColor = rgb(0, 0, 0);
-  const lineHeight = fontSize * 1.2;
-  const pageMargin = 50;
+  const lineHeight = lineheight;
+  const pageMargin = margin;
 
   let currentPage = pdfDoc.addPage();
   let currentY = currentPage.getHeight() - pageMargin;
   let currentX = pageMargin;
-  let fontIndex = 0;
+const paragraphs = text.split('\n');
 
-  const words = text.split(/\s+/);
+  for (const paragraph of paragraphs) {
+    const words = paragraph.split(/\s+/);
+    let fontIndex = 0;
 
-  for (const word of words) {
-    const font = embeddedFonts[fontIndex];
-    const wordWidth = font.widthOfTextAtSize(word, fontSize);
+    for (const word of words) {
+      const font = embeddedFonts[fontIndex];
+      const wordWidth = font.widthOfTextAtSize(word, fontSize);
 
-    // Check if word exceeds the available width on the current line
-    if (currentX + wordWidth > currentPage.getWidth() - pageMargin) {
-      currentY -= lineHeight;
-      currentX = pageMargin;
-
-      // Check if we need to move to the next page
-      if (currentY < pageMargin) {
-        currentPage = pdfDoc.addPage();
-        currentY = currentPage.getHeight() - pageMargin;
-      }
-    }
-
-    // Handle next line character
-    if (word === '\n') {
-      currentY -= lineHeight;
-
-      // Check if we need to move to the next page
-      if (currentY < pageMargin) {
-        currentPage = pdfDoc.addPage();
-        currentY = currentPage.getHeight() - pageMargin;
-      }
-
-      continue;
-    }
-
-    for (const char of word) {
-      const charWidth = font.widthOfTextAtSize(char, fontSize);
-
-      // Check if character exceeds the available width on the current line
-      if (currentX + charWidth > currentPage.getWidth() - pageMargin) {
+      // Check if word exceeds the available width on the current line
+      if (currentX + wordWidth > currentPage.getWidth() - pageMargin) {
         currentY -= lineHeight;
         currentX = pageMargin;
 
@@ -65,7 +39,7 @@ const generatePDF = async (text) => {
         }
       }
 
-      currentPage.drawText(char, {
+      currentPage.drawText(word, {
         x: currentX,
         y: currentY,
         size: fontSize,
@@ -73,17 +47,16 @@ const generatePDF = async (text) => {
         color: fontColor,
       });
 
-      currentX += charWidth;
+      currentX += wordWidth + font.widthOfTextAtSize(' ', fontSize);
+      fontIndex = (fontIndex + 1) % embeddedFonts.length;
     }
 
-    currentX += font.widthOfTextAtSize(' ', fontSize);
-    fontIndex = (fontIndex + 1) % embeddedFonts.length;
+    currentY -= 2*lineHeight;
+    currentX = pageMargin;
   }
 
   const pdfBytes = await pdfDoc.save();
 
   return pdfBytes;
 };
-
-
 export { generatePDF };
