@@ -25,8 +25,8 @@ But amid the madness, a curious thing happened. The project that required all th
 And so, the legend of Dummylandia lived on, reminding us all to embrace the unexpected and find laughter in the absurd. Next time you encounter a spreadsheet filled with random numbers or encounter gibberish in your code, remember the wacky world of dummy data and the laughter it brought to Dataville. After all, life is too short to take everything seriously – sometimes, a bit of silliness is just what the programmer ordered!
 
 The end. Or is it just the beginning of a whole new adventure in the land of dummy data?`);
-  const [fontSize, setFontSize] = useState<number>(16);
-  const [lineHeight, setLineHeight] = useState<number>(32);
+  const [fontSize, setFontSize] = useState<number>(14);
+  const [lineHeight, setLineHeight] = useState<number>(28);
   const [margin, setMargin] = useState<number>(40);
 
   const handleTextChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {

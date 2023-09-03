@@ -4,10 +4,11 @@ import fontkit from '@pdf-lib/fontkit';
 const generatePDF = async (text: string, fontsize: number, lineheight: number, margin: number) => {
   const pdfDoc = await PDFDocument.create();
   pdfDoc.registerFontkit(fontkit);
-  const fontUrls = ['/fonts/QEDavidReid.ttf', '/fonts/QEVickyCaulfield.ttf', '/fonts/QETonyFlores.ttf', '/fonts/QEHerbertCooper.ttf', '/fonts/QEVRead.ttf'];
+  // const fontUrls = ['/fonts/QEDavidReid.ttf', '/fonts/QEVickyCaulfield.ttf', '/fonts/QETonyFlores.ttf', '/fonts/QEHerbertCooper.ttf', '/fonts/QEVRead.ttf'];
+  const fontUrls = ['/fonts/QEDavidReid.ttf', '/fonts/QEVickyCaulfield.ttf', '/fonts/QETonyFlores.ttf', '/fonts/QEHerbertCooper.ttf', '/fonts/QEVRead.ttf','/fonts/QESamRoberts2.ttf','/fonts/QECarolineMutiboko.ttf','/fonts/QEKunjarScript.ttf','/fonts/QEBradenHill.ttf'];
   const fonts = await Promise.all(fontUrls.map(url => fetch(url).then(response => response.arrayBuffer())));
   const embeddedFonts = await Promise.all(fonts.map(font => pdfDoc.embedFont(font)));
-  const url = 'https://pdf-lib.js.org/assets/ubuntu/Ubuntu-R.ttf'
+  const url = '/fonts/Ubuntu-R.ttf'
   const fontBytes = await fetch(url).then((res) => res.arrayBuffer())
   const defaultFont = await pdfDoc.embedFont(fontBytes)
 
@@ -15,6 +16,7 @@ const generatePDF = async (text: string, fontsize: number, lineheight: number, m
   const fontColor = rgb(0, 0, 0.3);
   const lineHeight = lineheight;
   const pageMargin = margin;
+  const lineVariance = 0.003;
 
   let currentPage = pdfDoc.addPage();
   let currentY = currentPage.getHeight() - pageMargin;
@@ -23,13 +25,13 @@ const generatePDF = async (text: string, fontsize: number, lineheight: number, m
 
   for (const paragraph of paragraphs) {
     const words = paragraph.split(/\s+/);
-    let fontIndex = 0;
+    let fontIndex = Math.floor(Math.random() * embeddedFonts.length);
 
     for (const word of words) {
       let wordWidth = 0;
       for (const letter of word) {
         let font;
-        if (/^[a-zA-Z0-9()\[\]{}\-_:;.,•'/̄ |–]+$/.test(letter)) {
+        if (/^[a-zA-Z0-9()\[\]{}\-_?!:;.,•'/̄ |–]+$/.test(letter)) {
           font = embeddedFonts[fontIndex];
           wordWidth += font.widthOfTextAtSize(letter, fontSize);
         } else {
@@ -54,7 +56,7 @@ const generatePDF = async (text: string, fontsize: number, lineheight: number, m
       for (const letter of word) {
         let font;
         let letterWidth;
-        if (/^[a-zA-Z0-9()\[\]{}\-_:;.,•'/̄ |–]+$/.test(letter)) {
+        if (/^[a-zA-Z0-9()\[\]{}\-_?!:;.,•'/̄ |–]+$/.test(letter)) {
           font = embeddedFonts[fontIndex];
           letterWidth = font.widthOfTextAtSize(letter, fontSize);
         } else {
@@ -64,7 +66,7 @@ const generatePDF = async (text: string, fontsize: number, lineheight: number, m
 
         currentPage.drawText(letter, {
           x: currentX,
-          y: currentY,
+          y: currentY*(1+lineVariance*Math.random()),
           size: fontSize,
           font,
           color: fontColor,
