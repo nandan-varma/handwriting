@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { saveAs } from 'file-saver';
 import { generatePDF } from '../utils/pdfUtils';
+import { Textarea } from '../components/ui/textarea'
+import { Button } from '../components/ui/button'
+import { Input } from '../components/ui/input'
 
 const HandwrittenTextPage = () => {
   const [text, setText] = useState(`Title: The Wacky World of Dummy Data: An Epic Tale of Randomness
@@ -22,45 +25,64 @@ But amid the madness, a curious thing happened. The project that required all th
 And so, the legend of Dummylandia lived on, reminding us all to embrace the unexpected and find laughter in the absurd. Next time you encounter a spreadsheet filled with random numbers or encounter gibberish in your code, remember the wacky world of dummy data and the laughter it brought to Dataville. After all, life is too short to take everything seriously – sometimes, a bit of silliness is just what the programmer ordered!
 
 The end. Or is it just the beginning of a whole new adventure in the land of dummy data?`);
-  const [fontSize, setFontSize] = useState(24);
-  const [lineHeight, setLineHeight] = useState(48);
-  const [margin, setMargin] = useState(50);
+  const [fontSize, setFontSize] = useState<number>(16);
+  const [lineHeight, setLineHeight] = useState<number>(32);
+  const [margin, setMargin] = useState<number>(40);
 
-  const handleTextChange = (event) => {
+  const handleTextChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(event.target.value);
   };
 
-  const handleFontSizeChange = (event) => {
-    setFontSize(event.target.value);
+  const handleFontSizeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFontSize(parseInt(event.target.value));
   };
 
-  const handleLineHeightChange = (event) => {
-    setLineHeight(event.target.value);
+  const handleLineHeightChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setLineHeight(parseInt(event.target.value));
   };
 
-  const handleMarginChange = (event) => {
-    setMargin(event.target.value);
+  const handleMarginChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setMargin(parseInt(event.target.value));
   };
 
   const handleDownloadPDF = async () => {
     const pdfBytes = await generatePDF(text, fontSize, lineHeight, margin);
-
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
     saveAs(blob, 'handwritten_text.pdf');
   };
 
   return (
     <div>
-      <title>HandWritten PDF</title>
-      <textarea className='text-area' value={text} onChange={handleTextChange} placeholder="Enter your text" />
-      <h2>Font Size</h2>
-      <input type="number" value={fontSize} onChange={handleFontSizeChange} placeholder="Font size" />
-      <h2>Line Height</h2>
-      <input type="number" value={lineHeight} onChange={handleLineHeightChange} placeholder="Line height" />
-      <h2>Margin</h2>
-      <input type="number" value={margin} onChange={handleMarginChange} placeholder="Margin" />
-      <br></br><br></br>
-      <button className='fancy-button' onClick={handleDownloadPDF}>Download PDF</button>
+        <title>HandWritten PDF</title>
+        <Textarea
+          value={text}
+          onChange={handleTextChange}
+          placeholder="Enter your text"
+        />
+        <div className="flex flex-col items-center gap-4">
+          <h2>Font Size</h2>
+          <Input
+            type="number"
+            value={fontSize}
+            onChange={handleFontSizeChange}
+            placeholder="Font size"
+          />
+          <h2>Line Height</h2>
+          <Input
+            type="number"
+            value={lineHeight}
+            onChange={handleLineHeightChange}
+            placeholder="Line height"
+          />
+          <h2>Margin</h2>
+          <Input
+            type="number"
+            value={margin}
+            onChange={handleMarginChange}
+            placeholder="Margin"
+          />
+          <Button onClick={handleDownloadPDF}>Download PDF</Button>
+        </div>
     </div>
   );
 };

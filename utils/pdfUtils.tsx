@@ -1,7 +1,7 @@
 import { PDFDocument, rgb } from 'pdf-lib';
 import fontkit from '@pdf-lib/fontkit';
 
-const generatePDF = async (text, fontsize , lineheight , margin) => {
+const generatePDF = async (text: string, fontsize: number, lineheight: number, margin: number) => {
   const pdfDoc = await PDFDocument.create();
   pdfDoc.registerFontkit(fontkit);
   const fontUrls = ['/fonts/QEDavidReid.ttf', '/fonts/QEVickyCaulfield.ttf', '/fonts/QETonyFlores.ttf', '/fonts/QEHerbertCooper.ttf', '/fonts/QEVRead.ttf'];
@@ -17,7 +17,7 @@ const generatePDF = async (text, fontsize , lineheight , margin) => {
   let currentPage = pdfDoc.addPage();
   let currentY = currentPage.getHeight() - pageMargin;
   let currentX = pageMargin;
-const paragraphs = text.split('\n');
+  const paragraphs = text.split('\n');
 
   for (const paragraph of paragraphs) {
     const words = paragraph.split(/\s+/);
@@ -50,8 +50,7 @@ const paragraphs = text.split('\n');
       currentX += wordWidth + font.widthOfTextAtSize(' ', fontSize);
       fontIndex = (fontIndex + 1) % embeddedFonts.length;
     }
-
-    currentY -= 2*lineHeight;
+    currentY -= lineHeight;
     currentX = pageMargin;
   }
 
