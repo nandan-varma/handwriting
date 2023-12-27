@@ -98,7 +98,7 @@ const HandwrittenTextPage = () => {
         <ResizablePanelGroup direction="horizontal">
           <ResizablePanel className='p-4'>
             {pdfInfo ?
-              <iframe title="PDF Preview" src={pdfInfo} className='h-full w-full' />
+              <iframe title="PDF Preview" src={pdfInfo} className='h-full w-full border-4' />
               : <p className='text-center font-bold place-items-center'>No Preview Available</p>
             }
           </ResizablePanel>
