@@ -70,9 +70,10 @@ const HandwrittenTextPage = () => {
     <div>
       <title>HandWritten PDF</title>
       <div className='min-h-screen'>
-        <div className="p-10 flex flex-col sm:flex-row items-center gap-4">
+        <div className="p-20 flex flex-col sm:flex-row items-center gap-4">
           <h2>Font Size</h2>
           <Input
+            className='min-w-20'
             type="number"
             value={fontSize}
             onChange={handleFontSizeChange}
@@ -80,6 +81,7 @@ const HandwrittenTextPage = () => {
           />
           <h2>Line Height</h2>
           <Input
+            className='min-w-20'
             type="number"
             value={lineHeight}
             onChange={handleLineHeightChange}
@@ -87,6 +89,7 @@ const HandwrittenTextPage = () => {
           />
           <h2>Margin</h2>
           <Input
+            className='min-w-20'
             type="number"
             value={margin}
             onChange={handleMarginChange}
