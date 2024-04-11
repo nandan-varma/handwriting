@@ -32,8 +32,9 @@ const HandwrittenTextPage = () => {
   
   The end. Or is it just the beginning of a whole new adventure in the land of dummy data?`);
   const [fontSize, setFontSize] = useState<number>(14);
-  const [lineHeight, setLineHeight] = useState<number>(28);
-  const [margin, setMargin] = useState<number>(40);
+  const [lineHeight, setLineHeight] = useState<number>(14);
+  const [margin, setMargin] = useState<number>(24);
+  const [gap, setGap] = useState<number>(0);
   const [pdfInfo, setPdfInfo] = useState<string | undefined>(undefined);
 
   const handleTextChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -52,14 +53,20 @@ const HandwrittenTextPage = () => {
     setMargin(parseInt(event.target.value));
   };
 
+  const handleGapChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setGap(parseInt(event.target.value));
+  };
+
+
+
   const handleDownloadPDF = async () => {
-    const pdfBytes = await generatePDF(text, fontSize, lineHeight, margin);
+    const pdfBytes = await generatePDF(text, fontSize, lineHeight, margin, gap);
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
     saveAs(blob, 'handwritten_text.pdf');
   };
 
   const handlePreviewPDF = async () => {
-    const pdfBytes = await generatePDF(text, fontSize, lineHeight, margin);
+    const pdfBytes = await generatePDF(text, fontSize, lineHeight, margin, gap);
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
     const docUrl = URL.createObjectURL(blob);
     setPdfInfo(docUrl);
@@ -94,6 +101,14 @@ const HandwrittenTextPage = () => {
             value={margin}
             onChange={handleMarginChange}
             placeholder="Margin"
+          />
+          <h2>Letter Gap</h2>
+          <Input
+            className='min-w-20'
+            type="number"
+            value={gap}
+            onChange={handleGapChange}
+            placeholder="Gap"
           />
           <Button onClick={handleDownloadPDF}>Download PDF</Button>
           <Button onClick={handlePreviewPDF}>Preview PDF</Button>
