@@ -1,7 +1,16 @@
 import { PDFDocument, rgb } from 'pdf-lib';
 import fontkit from '@pdf-lib/fontkit';
 
-const generatePDF = async (text: string, fontsize: number, lineheight: number, margin: number, lettergap: number) => {
+function hexToRgb(hex: string) {
+  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result ? {
+    r: parseInt(result[1], 16),
+    g: parseInt(result[2], 16),
+    b: parseInt(result[3], 16)
+  } : {r: 0, g: 0, b: 0};
+}
+
+const generatePDF = async (text: string, fontsize: number, lineheight: number, margin: number, lettergap: number, color: string) => {
   const pdfDoc = await PDFDocument.create();
   pdfDoc.registerFontkit(fontkit);
   // const fontUrls = ['/fonts/QEDavidReid.ttf', '/fonts/QEVickyCaulfield.ttf', '/fonts/QETonyFlores.ttf', '/fonts/QEHerbertCooper.ttf', '/fonts/QEVRead.ttf'];
@@ -13,7 +22,7 @@ const generatePDF = async (text: string, fontsize: number, lineheight: number, m
   const defaultFont = await pdfDoc.embedFont(fontBytes)
 
   const fontSize = fontsize;
-  const fontColor = rgb(0, 0, 0.3);
+  const fontColor = rgb(hexToRgb(color).r/255, hexToRgb(color).g/255, hexToRgb(color).b/255);
   const lineHeight = lineheight;
   const pageMargin = margin;
   const gap = lettergap*0.1;

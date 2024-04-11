@@ -36,6 +36,7 @@ const HandwrittenTextPage = () => {
   const [margin, setMargin] = useState<number>(24);
   const [gap, setGap] = useState<number>(0);
   const [pdfInfo, setPdfInfo] = useState<string | undefined>(undefined);
+  const [color, setColor] = useState<string>('#000000');
 
   const handleTextChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(event.target.value);
@@ -60,13 +61,13 @@ const HandwrittenTextPage = () => {
 
 
   const handleDownloadPDF = async () => {
-    const pdfBytes = await generatePDF(text, fontSize, lineHeight, margin, gap);
+    const pdfBytes = await generatePDF(text, fontSize, lineHeight, margin, gap, color);
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
     saveAs(blob, 'handwritten_text.pdf');
   };
 
   const handlePreviewPDF = async () => {
-    const pdfBytes = await generatePDF(text, fontSize, lineHeight, margin, gap);
+    const pdfBytes = await generatePDF(text, fontSize, lineHeight, margin, gap, color);
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
     const docUrl = URL.createObjectURL(blob);
     setPdfInfo(docUrl);
@@ -109,6 +110,14 @@ const HandwrittenTextPage = () => {
             value={gap}
             onChange={handleGapChange}
             placeholder="Gap"
+          />
+          <h2>Color</h2>
+          <Input
+            className='min-w-20'
+            type="color"
+            value={color}
+            onChange={(e) => {setColor(e.target.value);console.log(e.target.value)}}
+            placeholder="Color"
           />
           <Button onClick={handleDownloadPDF}>Download PDF</Button>
           <Button onClick={handlePreviewPDF}>Preview PDF</Button>
