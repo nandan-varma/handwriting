@@ -34,7 +34,7 @@ const HandwrittenTextPage = () => {
   const [fontSize, setFontSize] = useState<number>(14);
   const [lineHeight, setLineHeight] = useState<number>(14);
   const [margin, setMargin] = useState<number>(24);
-  const [gap, setGap] = useState<number>(0);
+  const [gap, setGap] = useState<number>(5);
   const [pdfInfo, setPdfInfo] = useState<string | undefined>(undefined);
   const [color, setColor] = useState<string>('#000000');
 

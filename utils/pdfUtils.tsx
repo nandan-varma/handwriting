@@ -7,7 +7,7 @@ function hexToRgb(hex: string) {
     r: parseInt(result[1], 16),
     g: parseInt(result[2], 16),
     b: parseInt(result[3], 16)
-  } : {r: 0, g: 0, b: 0};
+  } : { r: 0, g: 0, b: 0 };
 }
 
 const generatePDF = async (text: string, fontsize: number, lineheight: number, margin: number, lettergap: number, color: string) => {
@@ -22,10 +22,10 @@ const generatePDF = async (text: string, fontsize: number, lineheight: number, m
   const defaultFont = await pdfDoc.embedFont(fontBytes)
 
   const fontSize = fontsize;
-  const fontColor = rgb(hexToRgb(color).r/255, hexToRgb(color).g/255, hexToRgb(color).b/255);
+  const fontColor = rgb(hexToRgb(color).r / 255, hexToRgb(color).g / 255, hexToRgb(color).b / 255);
   const lineHeight = lineheight;
   const pageMargin = margin;
-  const gap = lettergap*0.1;
+  const gap = lettergap * 0.1;
   const lineVariance = 0.003;
 
   let currentPage = pdfDoc.addPage();
@@ -57,7 +57,7 @@ const generatePDF = async (text: string, fontsize: number, lineheight: number, m
         currentX = pageMargin;
 
         // Check if we need to move to the next page
-        if (currentY < pageMargin) {
+        if (currentY < pageMargin + fontSize + lineHeight) {
           currentPage = pdfDoc.addPage();
           currentY = currentPage.getHeight() - pageMargin;
         }
