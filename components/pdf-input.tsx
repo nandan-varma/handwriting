@@ -2,14 +2,14 @@
 import { useContext } from "react";
 import { ResizablePanel } from "./ui/resizable";
 import { Textarea } from "./ui/textarea";
-import { PDFContext } from "./providers/pdf-provider";
 import { DefaultText } from "@/utils/defaults";
+import { ControlsContext } from "./providers/controls-provider";
 
 export function PdfInput() {
-    const { text, setText } = useContext(PDFContext);
+    const { text, setText } = useContext(ControlsContext);
     return (
         <>
-            <ResizablePanel className='p-2'>
+            <ResizablePanel defaultSize={20} className='p-2'>
                 <Textarea
                     value={text}
                     onChange={e => setText(e.target.value)}

@@ -18,7 +18,7 @@ interface ControlsValue {
   setPreset: (preset: Preset) => void;
   text: string;
   setText: (text: string) => void;
-  handlePresetChange?: (preset: string) => void;
+  handlePresetChange: (preset: string) => void;
 }
 
 export const ControlsContext = createContext<ControlsValue>({

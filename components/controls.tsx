@@ -1,6 +1,6 @@
 'use client'
 import { useContext, useState } from "react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "./ui/select";
 import { Switch } from "./ui/switch";
 import { AdvancedControls } from "./advanced-controls";
 import { presets } from "@/utils/defaults";
@@ -16,16 +16,19 @@ export function Controls() {
         <>
             <div className="pt-10 px-5 flex flex-col sm:flex-row items-center gap-4 font-semibold justify-center">
                 <h2>Preset</h2>
-                <Select defaultValue={"medium"} onValueChange={(e) => { handlePresetChange && handlePresetChange(e) }}>
+                <Select defaultValue={"medium"} onValueChange={(e) => { handlePresetChange(e) }}>
                     <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Preset" />
+                        <SelectValue placeholder="Select a Preset" />
                     </SelectTrigger>
                     <SelectContent>
-                        {Object.entries(presets).map(([key, value]) => (
-                            <SelectItem value={key} key={key}>
-                                {key}
-                            </SelectItem>
-                        ))}
+                        <SelectGroup>
+                            <SelectLabel>Presets</SelectLabel>
+                            {Object.entries(presets).map(([key, value]) => (
+                                <SelectItem value={key} key={key}>
+                                    {key}
+                                </SelectItem>
+                            ))}
+                        </SelectGroup>
                     </SelectContent>
                 </Select>
                 <h2>Advanced Controls</h2>

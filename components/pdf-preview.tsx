@@ -1,6 +1,6 @@
 'use client'
 import { ResizablePanel } from "./ui/resizable";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { PDFContext } from "./providers/pdf-provider";
 
 export function PdfPreview() {
@@ -8,7 +8,7 @@ export function PdfPreview() {
 
     return (
         <>
-            <ResizablePanel className='p-4'>
+            <ResizablePanel defaultSize={20} className='p-4'>
                 {pdfInfo ?
                     <iframe title="PDF Preview" src={pdfInfo} className='h-full w-full border-4' />
                     : <p className='text-center font-bold place-items-center'>No Preview Available</p>
