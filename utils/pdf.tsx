@@ -45,7 +45,7 @@ const generatePDF = async (text: string, fontsize: number, lineheight: number, m
           font = embeddedFonts[fontIndex];
           wordWidth += font.widthOfTextAtSize(letter, fontSize) + gap;
         } else {
-          console.log(letter);
+          // console.log(letter);
           font = defaultFont;
           wordWidth += font.widthOfTextAtSize("  ", fontSize) + gap;
         }
