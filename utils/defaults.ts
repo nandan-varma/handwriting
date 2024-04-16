@@ -13,21 +13,21 @@ The end. Or is it just the beginning of a whole new adventure in the land of dum
 
 export const presets: Record<string, Preset> = {
     small: {
-      fontSize: 12,
-      lineHeight: 12,
-      margin: 24,
-      gap: 5,
+        fontSize: 12,
+        lineHeight: 12,
+        margin: 24,
+        gap: 5,
     },
     medium: {
-      fontSize: 14,
-      lineHeight: 14,
-      margin: 24,
-      gap: 5,
+        fontSize: 14,
+        lineHeight: 14,
+        margin: 24,
+        gap: 5,
     },
     large: {
-      fontSize: 16,
-      lineHeight: 16,
-      margin: 24,
-      gap: 5,
+        fontSize: 16,
+        lineHeight: 16,
+        margin: 24,
+        gap: 5,
     },
-  };
+};

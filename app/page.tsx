@@ -7,11 +7,11 @@ import { Controls } from "@/components/controls";
 const HandwrittenTextPage = () => {
   return (
     <div>
-      <Controls/>
+      <Controls />
       <ResizablePanelGroup direction="horizontal">
-        <PdfPreview/>
+        <PdfPreview />
         <ResizableHandle withHandle />
-        <PdfInput/>
+        <PdfInput />
       </ResizablePanelGroup>
     </div >
   );

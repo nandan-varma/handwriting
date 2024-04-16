@@ -1,3 +1,4 @@
+'use server'
 import { PDFDocument, rgb } from 'pdf-lib';
 import fontkit from '@pdf-lib/fontkit';
 
@@ -10,7 +11,7 @@ function hexToRgb(hex: string) {
   } : { r: 0, g: 0, b: 0 };
 }
 
-const generatePDF = async (text: string, fontsize: number, lineheight: number, margin: number, lettergap: number, color: string) => {
+async function generatePDF(text: string, fontsize: number, lineheight: number, margin: number, lettergap: number, color: string){
   const pdfDoc = await PDFDocument.create();
   pdfDoc.registerFontkit(fontkit);
   // const fontUrls = ['/fonts/QEDavidReid.ttf', '/fonts/QEVickyCaulfield.ttf', '/fonts/QETonyFlores.ttf', '/fonts/QEHerbertCooper.ttf', '/fonts/QEVRead.ttf'];

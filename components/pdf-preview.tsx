@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { PDFContext } from "./providers/pdf-provider";
 
 export function PdfPreview() {
-    const { pdfInfo} = useContext(PDFContext);
+    const { pdfInfo } = useContext(PDFContext);
 
     return (
         <>
