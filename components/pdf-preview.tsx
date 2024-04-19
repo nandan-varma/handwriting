@@ -40,7 +40,11 @@ export function PdfPreview() {
                 </div> */}
                 {pdfInfo !== undefined ?
                     <iframe title="PDF Preview" src={pdfInfo} className='h-full w-full border-4' />
-                    : <p className='text-center font-bold place-items-center'>No Preview Available</p>
+                    : 
+                    <div className="flex flex-col">
+                    <p className='text-center font-bold place-items-center'>No Preview Available</p>
+                    <p className='text-center font-bold place-items-center'>Try clicking Preview</p>
+                    </div>
                 }
             </ResizablePanel>
         </>

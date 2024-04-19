@@ -31,7 +31,7 @@ export function Controls() {
                     </SelectContent>
                 </Select>
             </div>
-            <div className="pt-10 px-5 flex flex-row items-center justify-center gap-4 font-semibold">
+            <div className="py-5 px-5 flex flex-row items-center justify-center gap-4 font-semibold">
                 <AdvancedControls />
                 <Button onClick={handleDownloadPDF}>Download PDF</Button>
                 <Button onClick={handlePreviewPDF}>Preview PDF</Button>

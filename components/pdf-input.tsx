@@ -13,7 +13,7 @@ export function PdfInput() {
                 <Textarea
                     value={text}
                     onChange={e => setText(e.target.value)}
-                    placeholder={DefaultText}
+                    placeholder={'Enter text here'}
                 />
             </ResizablePanel>
         </>
