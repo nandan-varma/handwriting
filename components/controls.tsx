@@ -33,8 +33,8 @@ export function Controls() {
             </div>
             <div className="py-5 px-5 flex flex-row items-center justify-center gap-4 font-semibold">
                 <AdvancedControls />
-                <Button onClick={handleDownloadPDF}>Download PDF</Button>
-                <Button onClick={handlePreviewPDF}>Preview PDF</Button>
+                <Button variant={"outline"} onClick={handleDownloadPDF}>Download PDF</Button>
+                <Button variant={"outline"} onClick={handlePreviewPDF}>Preview PDF</Button>
             </div>
         </>
     )

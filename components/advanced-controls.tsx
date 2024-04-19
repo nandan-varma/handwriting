@@ -16,17 +16,14 @@ export function AdvancedControls() {
         <>
             <Popover>
                 <PopoverTrigger asChild>
-                    <Button>Open Controls</Button>
+                    <Button variant={"outline"}>Open Controls</Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-60">
                     <div className="grid gap-4">
                         <div className="space-y-2">
-                            <h4 className="font-medium leading-none">Advanced Controls</h4>
-                            <p className="text-sm text-muted-foreground">
-                                Set advanced controls for the text
-                            </p>
+                            <h4 className="font-medium leading-none text-center">Advanced Controls</h4>
                         </div>
-                        <div className="grid gap-2">
+                        <div className="grid gap-2 content-center">
                             <div className="grid grid-cols-3 items-center gap-4">
                                 <Label htmlFor="fontSize">Font Size</Label>
                                 <Input
