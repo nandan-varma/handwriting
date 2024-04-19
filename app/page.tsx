@@ -8,7 +8,7 @@ const HandwrittenTextPage = () => {
   return (
     <div>
       <Controls />
-      <ResizablePanelGroup direction="horizontal">
+      <ResizablePanelGroup direction="horizontal" className="py-2">
         <PdfPreview />
         <ResizableHandle withHandle />
         <PdfInput />

@@ -9,7 +9,7 @@ export function PdfInput() {
     const { text, setText } = useContext(ControlsContext);
     return (
         <>
-            <ResizablePanel defaultSize={20} className='p-2'>
+            <ResizablePanel defaultSize={50} className='p-2'>
                 <Textarea
                     value={text}
                     onChange={e => setText(e.target.value)}

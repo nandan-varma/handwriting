@@ -1,6 +1,7 @@
-'use server'
-import { PDFDocument, rgb } from 'pdf-lib';
+'use client'
+import { PDFDocument, PDFFont, rgb } from 'pdf-lib';
 import fontkit from '@pdf-lib/fontkit';
+// import fs from 'fs';
 
 function hexToRgb(hex: string) {
   var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -11,13 +12,26 @@ function hexToRgb(hex: string) {
   } : { r: 0, g: 0, b: 0 };
 }
 
-async function generatePDF(text: string, fontsize: number, lineheight: number, margin: number, lettergap: number, color: string){
+const generatePDF = async (text: string, fontsize: number, lineheight: number, margin: number, lettergap: number, color: string, user_fonts: string[]) => {
   const pdfDoc = await PDFDocument.create();
   pdfDoc.registerFontkit(fontkit);
-  // const fontUrls = ['/fonts/QEDavidReid.ttf', '/fonts/QEVickyCaulfield.ttf', '/fonts/QETonyFlores.ttf', '/fonts/QEHerbertCooper.ttf', '/fonts/QEVRead.ttf'];
-  const fontUrls = ['/fonts/QEDavidReid.ttf', '/fonts/QEVickyCaulfield.ttf', '/fonts/QETonyFlores.ttf', '/fonts/QEHerbertCooper.ttf', '/fonts/QEVRead.ttf', '/fonts/QESamRoberts2.ttf', '/fonts/QECarolineMutiboko.ttf', '/fonts/QEKunjarScript.ttf', '/fonts/QEBradenHill.ttf'];
-  const fonts = await Promise.all(fontUrls.map(url => fetch(url).then(response => response.arrayBuffer())));
-  const embeddedFonts = await Promise.all(fonts.map(font => pdfDoc.embedFont(font)));
+
+  // server side code : currently not working
+  // const fontUrls = ['/fonts/QEDavidReid.ttf', '/fonts/QEVickyCaulfield.ttf', '/fonts/QETonyFlores.ttf', '/fonts/QEHerbertCooper.ttf', '/fonts/QEVRead.ttf', '/fonts/QESamRoberts2.ttf', '/fonts/QECarolineMutiboko.ttf', '/fonts/QEKunjarScript.ttf', '/fonts/QEBradenHill.ttf'];
+  // let fontsDir = fs.readdirSync('./public/fonts');
+  // let fonts = [];
+  // for (let i = 0; i < fontsDir.length; i++) {
+  //   fonts.push(fs.readFileSync(`./public/fonts/${fontsDir[i]}`));
+  // }
+  // const userFonts = await Promise.all(user_fonts.map(url => fetch(url).then(response => response.arrayBuffer())));
+  // const embeddedFonts = await Promise.all(fonts.map(font => pdfDoc.embedFont(font)));
+  // const fontBytes = fs.readFileSync('./public/fonts/Ubuntu-R.ttf');
+
+  // client side code : working
+  const fontUrls = ['/fonts/QEDavidReid.ttf', '/fonts/QEVickyCaulfield.ttf', '/fonts/QETonyFlores.ttf', '/fonts/QEHerbertCooper.ttf', '/fonts/QEVRead.ttf'];
+  const embeddedFonts = await Promise.all(fontUrls.map(url => fetch(url)
+    .then(response => response.arrayBuffer()).
+    then(font => pdfDoc.embedFont(font))));
   const url = '/fonts/Ubuntu-R.ttf'
   const fontBytes = await fetch(url).then((res) => res.arrayBuffer())
   const defaultFont = await pdfDoc.embedFont(fontBytes)

@@ -23,14 +23,13 @@ export const PDFProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const { text, fontSize, lineHeight, margin, gap, color } = useContext(ControlsContext);
 
   const handlePreviewPDF = async () => {
-    const pdfBytes = await generatePDF(text, fontSize, lineHeight, margin, gap, color);
+    const pdfBytes = await generatePDF(text, fontSize, lineHeight, margin, gap, color,[]);
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
     const docUrl = URL.createObjectURL(blob);
     setPdfInfo(docUrl);
-    // console.log(docUrl);
   }
   const handleDownloadPDF = async () => {
-    const pdfBytes = await generatePDF(text, fontSize, lineHeight, margin, gap, color);
+    const pdfBytes = await generatePDF(text, fontSize, lineHeight, margin, gap, color,[]);
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
     saveAs(blob, 'handwritten_text.pdf');
   };

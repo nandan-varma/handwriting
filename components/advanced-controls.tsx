@@ -7,7 +7,7 @@ export function AdvancedControls() {
     const { fontSize, setFontSize, lineHeight, setLineHeight, margin, setMargin, gap, setGap, color, setColor } = useContext(ControlsContext);
     return (
         <>
-            <div className="pt-10 px-5 flex flex-col sm:flex-row items-center gap-4 font-semibold justify-center">
+            <div className="pt-5 flex flex-row items-center gap-4 font-semibold justify-center">
                 <h2>Font Size</h2>
                 <Input
                     className='min-w-20'
