@@ -19,6 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <script defer data-domain="writing.nandanvarma.com" src="https://plausible.nandanvarma.com/js/script.js"></script>
       <body className={inter.className}>
         <ControlsProvider>
           <PDFProvider>
