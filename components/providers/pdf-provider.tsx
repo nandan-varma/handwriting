@@ -22,6 +22,14 @@ function createSeed(): string {
   return globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random()}`;
 }
 
+function createPdfBlob(pdfBytes: Uint8Array): Blob {
+  const pdfBuffer = pdfBytes.buffer as ArrayBuffer;
+
+  return new Blob([pdfBuffer], {
+    type: "application/pdf",
+  });
+}
+
 export const PDFProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
@@ -58,9 +66,7 @@ export const PDFProvider: React.FC<{ children: React.ReactNode }> = ({
           return;
         }
 
-        const blob = new Blob([pdfBytes], {
-          type: "application/pdf",
-        });
+        const blob = createPdfBlob(pdfBytes);
         const docUrl = URL.createObjectURL(blob);
         setPreviewBytes(pdfBytes);
         setPdfInfo(docUrl);
@@ -98,9 +104,7 @@ export const PDFProvider: React.FC<{ children: React.ReactNode }> = ({
       previewBytes ??
       (await generatePDF(text, fontSize, lineHeight, margin, gap, color, seed));
 
-    const blob = new Blob([bytes], {
-      type: "application/pdf",
-    });
+    const blob = createPdfBlob(bytes);
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;

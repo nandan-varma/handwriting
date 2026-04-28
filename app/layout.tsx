@@ -23,7 +23,30 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn("font-sans", inter.variable)}>
+    <html
+      lang="en"
+      className={cn("font-sans", inter.variable)}
+      suppressHydrationWarning
+    >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(() => {
+              const media = window.matchMedia('(prefers-color-scheme: dark)');
+              const root = document.documentElement;
+
+              const applyTheme = () => {
+                const isDark = media.matches;
+                root.classList.toggle('dark', isDark);
+                root.style.colorScheme = isDark ? 'dark' : 'light';
+              };
+
+              applyTheme();
+              media.addEventListener('change', applyTheme);
+            })();`,
+          }}
+        />
+      </head>
       <Script
         defer
         data-domain="writing.nandanvarma.com"
