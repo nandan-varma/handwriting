@@ -1,5 +1,30 @@
 "use client";
 
+function hashSeed(seed: string): number {
+  let hash = 2166136261;
+
+  for (let index = 0; index < seed.length; index += 1) {
+    hash ^= seed.charCodeAt(index);
+    hash = Math.imul(hash, 16777619);
+  }
+
+  return hash >>> 0 || 1;
+}
+
+function createSeededRandom(seed: string): () => number {
+  let state = hashSeed(seed);
+
+  return () => {
+    state += 0x6d2b79f5;
+
+    let value = state;
+    value = Math.imul(value ^ (value >>> 15), value | 1);
+    value ^= value + Math.imul(value ^ (value >>> 7), value | 61);
+
+    return ((value ^ (value >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
 function hexToRgb(hex: string): { r: number; g: number; b: number } {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
   if (!result) return { r: 0, g: 0, b: 0 };
@@ -24,6 +49,7 @@ const generatePDF = async (
   margin: number,
   lettergap: number,
   color: string,
+  seed: string,
 ): Promise<Uint8Array> => {
   const { PDFDocument, rgb } = await import("pdf-lib");
   const fontkit = (await import("@pdf-lib/fontkit")).default;
@@ -55,6 +81,7 @@ const generatePDF = async (
   const pageMargin = margin;
   const gap = lettergap * 0.1;
   const lineVariance = 0.003;
+  const random = createSeededRandom(seed);
 
   const getFont = (index: number) => {
     const f = embeddedFonts[index];
@@ -72,7 +99,7 @@ const generatePDF = async (
 
   for (const paragraph of paragraphs) {
     const words = paragraph.split(/\s+/);
-    let fontIndex = Math.floor(Math.random() * embeddedFonts.length);
+    let fontIndex = Math.floor(random() * embeddedFonts.length);
 
     for (const word of words) {
       let wordWidth = 0;
@@ -100,7 +127,7 @@ const generatePDF = async (
 
         currentPage.drawText(letter, {
           x: currentX,
-          y: currentY * (1 + lineVariance * Math.random()),
+          y: currentY * (1 + lineVariance * random()),
           size: fontSize,
           font,
           color: fontColor,
@@ -108,7 +135,7 @@ const generatePDF = async (
 
         currentX += letterWidth;
 
-        fontIndex = Math.floor(Math.random() * embeddedFonts.length);
+        fontIndex = Math.floor(random() * embeddedFonts.length);
       }
       currentX += defaultFont.widthOfTextAtSize("  ", fontSize) + gap;
     }
