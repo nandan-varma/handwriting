@@ -1,7 +1,6 @@
 'use client'
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "./ui/select";
-import { Switch } from "./ui/switch";
 import { AdvancedControls } from "./advanced-controls";
 import { presets } from "@/utils/defaults";
 import { PDFContext } from "./providers/pdf-provider";

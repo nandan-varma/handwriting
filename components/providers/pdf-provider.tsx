@@ -1,7 +1,6 @@
 'use client'
 import { generatePDF } from '@/utils/pdf';
 import React, { createContext, useContext, useState } from 'react';
-import { saveAs } from 'file-saver';
 import { ControlsContext } from './controls-provider';
 
 interface PDFProviderValue {
@@ -23,15 +22,20 @@ export const PDFProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const { text, fontSize, lineHeight, margin, gap, color } = useContext(ControlsContext);
 
   const handlePreviewPDF = async () => {
-    const pdfBytes = await generatePDF(text, fontSize, lineHeight, margin, gap, color,[]);
-    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+    const pdfBytes = await generatePDF(text, fontSize, lineHeight, margin, gap, color);
+    const blob = new Blob([pdfBytes as unknown as BlobPart], { type: 'application/pdf' });
     const docUrl = URL.createObjectURL(blob);
     setPdfInfo(docUrl);
   }
   const handleDownloadPDF = async () => {
-    const pdfBytes = await generatePDF(text, fontSize, lineHeight, margin, gap, color,[]);
-    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-    saveAs(blob, 'handwritten_text.pdf');
+    const pdfBytes = await generatePDF(text, fontSize, lineHeight, margin, gap, color);
+    const blob = new Blob([pdfBytes as unknown as BlobPart], { type: 'application/pdf' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'handwritten_text.pdf';
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
   return (
