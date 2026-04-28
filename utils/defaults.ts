@@ -1,4 +1,4 @@
-import { Preset } from "./types";
+import type { Preset } from "./types";
 
 export const DefaultText = `Title: The Wacky World of Dummy Data: An Epic Tale of Randomness
 Once upon a time, in the mystical land of Dataville, there existed a peculiar realm known as Dummylandia. It was a place where numbers danced, letters sang, and chaos reigned supreme. Welcome to the wacky world of dummy data, where randomness knows no bounds!
@@ -9,25 +9,25 @@ But the true heart and soul of Dummylandia resided in the whimsical realm of Ima
 In this land of absurdity, the inhabitants reveled in the chaos. They celebrated birthdays on February 30th, wore mismatched socks on purpose, and communicated in a language called "Nonsense-ese" that only they could understand. The weather forecast predicted rainbows with a 100% chance of laughter, and every clock displayed the time as "Now o'clock" to signify the perpetual present.
 But amid the madness, a curious thing happened. The project that required all this ludicrous data became a resounding success! People marveled at the randomness and unpredictability of Dummylandia, finding joy in its nonsensical existence. They realized that sometimes, a touch of whimsy and a sprinkle of silliness can make the world a brighter place.
 And so, the legend of Dummylandia lived on, reminding us all to embrace the unexpected and find laughter in the absurd. Next time you encounter a spreadsheet filled with random numbers or encounter gibberish in your code, remember the wacky world of dummy data and the laughter it brought to Dataville. After all, life is too short to take everything seriously – sometimes, a bit of silliness is just what the programmer ordered!
-The end. Or is it just the beginning of a whole new adventure in the land of dummy data?`
+The end. Or is it just the beginning of a whole new adventure in the land of dummy data?`;
 
 export const presets: Record<string, Preset> = {
-    small: {
-        fontSize: 12,
-        lineHeight: 12,
-        margin: 24,
-        gap: 5,
-    },
-    medium: {
-        fontSize: 14,
-        lineHeight: 14,
-        margin: 24,
-        gap: 5,
-    },
-    large: {
-        fontSize: 16,
-        lineHeight: 16,
-        margin: 24,
-        gap: 5,
-    },
+  small: {
+    fontSize: 12,
+    lineHeight: 12,
+    margin: 24,
+    gap: 5,
+  },
+  medium: {
+    fontSize: 14,
+    lineHeight: 14,
+    margin: 24,
+    gap: 5,
+  },
+  large: {
+    fontSize: 16,
+    lineHeight: 16,
+    margin: 24,
+    gap: 5,
+  },
 };

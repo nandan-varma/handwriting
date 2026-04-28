@@ -1,33 +1,34 @@
-'use client'
+"use client";
 import { useContext } from "react";
+import { ControlsContext } from "./providers/controls-provider";
 import { ResizablePanel } from "./ui/resizable";
 import { Textarea } from "./ui/textarea";
-import { DefaultText } from "@/utils/defaults";
-import { ControlsContext } from "./providers/controls-provider";
 
 interface PdfInputProps {
-    asPanel?: boolean;
+  asPanel?: boolean;
 }
 
 export function PdfInput({ asPanel = true }: PdfInputProps) {
-    const { text, setText } = useContext(ControlsContext);
-    
-    const content = (
-        <div className="h-full flex flex-col p-2">
-            <Textarea
-                className="flex-1 min-h-0 w-full resize-none"
-                value={text}
-                onChange={e => setText(e.target.value)}
-                placeholder="Enter text here..."
-            />
-        </div>
-    );
+  const { text, setText } = useContext(ControlsContext);
 
-    if (!asPanel) return content;
+  const content = (
+    <div className="h-full flex flex-col p-3">
+      <div className="flex-1 min-h-0 w-full resize-none rounded-lg border bg-background shadow-sm p-4">
+        <Textarea
+          className="flex-1 min-h-0 w-full resize-none border-0 bg-transparent p-0 text-base outline-none placeholder:text-muted-foreground"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          placeholder="Enter text here..."
+        />
+      </div>
+    </div>
+  );
 
-    return (
-        <ResizablePanel defaultSize="50%" minSize={20} className="min-w-0">
-            {content}
-        </ResizablePanel>
-    )
+  if (!asPanel) return content;
+
+  return (
+    <ResizablePanel defaultSize="50%" minSize={20} className="min-w-0">
+      {content}
+    </ResizablePanel>
+  );
 }

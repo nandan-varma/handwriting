@@ -1,8 +1,11 @@
-"use client"
-import { ResizableHandle, ResizablePanelGroup } from "@/components/ui/resizable"
-import { PdfInput } from '@/components/pdf-input';
-import { PdfPreview } from '@/components/pdf-preview';
+"use client";
 import { Controls } from "@/components/controls";
+import { PdfInput } from "@/components/pdf-input";
+import { PdfPreview } from "@/components/pdf-preview";
+import {
+  ResizableHandle,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable";
 
 export default function HandwrittenTextPage() {
   return (
@@ -17,7 +20,10 @@ export default function HandwrittenTextPage() {
             <PdfPreview asPanel={false} />
           </div>
         </div>
-        <ResizablePanelGroup orientation="horizontal" className="h-full hidden md:flex">
+        <ResizablePanelGroup
+          orientation="horizontal"
+          className="h-full hidden md:flex"
+        >
           <PdfPreview asPanel={true} />
           <ResizableHandle withHandle />
           <PdfInput asPanel={true} />

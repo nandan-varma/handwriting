@@ -1,38 +1,74 @@
-'use client'
-import { PDFDocument, rgb } from 'pdf-lib';
-import fontkit from '@pdf-lib/fontkit';
+"use client";
 
-function hexToRgb(hex: string) {
-  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  return result ? {
-    r: parseInt(result[1], 16),
-    g: parseInt(result[2], 16),
-    b: parseInt(result[3], 16)
-  } : { r: 0, g: 0, b: 0 };
+function hexToRgb(hex: string): { r: number; g: number; b: number } {
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  if (!result) return { r: 0, g: 0, b: 0 };
+  const r = result[1];
+  const g = result[2];
+  const b = result[3];
+  if (!r || !g || !b) return { r: 0, g: 0, b: 0 };
+  return {
+    r: Number.parseInt(r, 16),
+    g: Number.parseInt(g, 16),
+    b: Number.parseInt(b, 16),
+  };
 }
 
-const generatePDF = async (text: string, fontsize: number, lineheight: number, margin: number, lettergap: number, color: string) => {
+const isLatinLike = (char: string): boolean =>
+  /^[a-zA-Z0-9()[\]\-_?!:;.,'" |?-]+$/.test(char);
+
+const generatePDF = async (
+  text: string,
+  fontsize: number,
+  lineheight: number,
+  margin: number,
+  lettergap: number,
+  color: string,
+): Promise<Uint8Array> => {
+  const { PDFDocument, rgb } = await import("pdf-lib");
+  const fontkit = (await import("@pdf-lib/fontkit")).default;
+
   const pdfDoc = await PDFDocument.create();
   pdfDoc.registerFontkit(fontkit);
-  const fontUrls = ['/fonts/QEDavidReid.ttf', '/fonts/QEVickyCaulfield.ttf', '/fonts/QETonyFlores.ttf', '/fonts/QEHerbertCooper.ttf', '/fonts/QEVRead.ttf'];
-  const embeddedFonts = await Promise.all(fontUrls.map(url => fetch(url)
-    .then(response => response.arrayBuffer()).
-    then(font => pdfDoc.embedFont(font))));
-  const url = '/fonts/Ubuntu-R.ttf'
-  const fontBytes = await fetch(url).then((res) => res.arrayBuffer())
-  const defaultFont = await pdfDoc.embedFont(fontBytes)
+  const fontUrls = [
+    "/fonts/QEDavidReid.ttf",
+    "/fonts/QEVickyCaulfield.ttf",
+    "/fonts/QETonyFlores.ttf",
+    "/fonts/QEHerbertCooper.ttf",
+    "/fonts/QEVRead.ttf",
+  ];
+  const embeddedFonts = await Promise.all(
+    fontUrls.map((url) =>
+      fetch(url)
+        .then((response) => response.arrayBuffer())
+        .then((fontData) => pdfDoc.embedFont(fontData)),
+    ),
+  );
+  const fontUrl = "/fonts/Ubuntu-R.ttf";
+  const fontBytes = await fetch(fontUrl).then((res) => res.arrayBuffer());
+  const defaultFont = await pdfDoc.embedFont(fontBytes);
 
   const fontSize = fontsize;
-  const fontColor = rgb(hexToRgb(color).r / 255, hexToRgb(color).g / 255, hexToRgb(color).b / 255);
+  const { r: rVal, g: gVal, b: bVal } = hexToRgb(color);
+  const fontColor = rgb(rVal / 255, gVal / 255, bVal / 255);
   const lineHeight = lineheight;
   const pageMargin = margin;
   const gap = lettergap * 0.1;
   const lineVariance = 0.003;
 
+  const getFont = (index: number) => {
+    const f = embeddedFonts[index];
+    return f !== undefined
+      ? f
+      : embeddedFonts[0] !== undefined
+        ? embeddedFonts[0]
+        : defaultFont;
+  };
+
   let currentPage = pdfDoc.addPage();
   let currentY = currentPage.getHeight() - pageMargin;
   let currentX = pageMargin;
-  const paragraphs = text.split('\n');
+  const paragraphs = text.split("\n");
 
   for (const paragraph of paragraphs) {
     const words = paragraph.split(/\s+/);
@@ -41,22 +77,14 @@ const generatePDF = async (text: string, fontsize: number, lineheight: number, m
     for (const word of words) {
       let wordWidth = 0;
       for (const letter of word) {
-        let font;
-        if (/^[a-zA-Z0-9()\[\]{}\-_?!:;.,•'/̄ |–-]+$/.test(letter)) {
-          font = embeddedFonts[fontIndex];
-          wordWidth += font.widthOfTextAtSize(letter, fontSize) + gap;
-        } else {
-          font = defaultFont;
-          wordWidth += font.widthOfTextAtSize("  ", fontSize) + gap;
-        }
+        const font = isLatinLike(letter) ? getFont(fontIndex) : defaultFont;
+        wordWidth += font.widthOfTextAtSize(letter, fontSize) + gap;
       }
 
-      // Check if word exceeds the available width on the current line
       if (currentX + wordWidth > currentPage.getWidth() - pageMargin) {
         currentY -= lineHeight;
         currentX = pageMargin;
 
-        // Check if we need to move to the next page
         if (currentY < pageMargin + fontSize + lineHeight) {
           currentPage = pdfDoc.addPage();
           currentY = currentPage.getHeight() - pageMargin;
@@ -64,15 +92,11 @@ const generatePDF = async (text: string, fontsize: number, lineheight: number, m
       }
 
       for (const letter of word) {
-        let font;
-        let letterWidth;
-        if (/^[a-zA-Z0-9()\[\]{}\-_?!:;.,•'/̄ |–]+$/.test(letter)) {
-          font = embeddedFonts[fontIndex];
-          letterWidth = font.widthOfTextAtSize(letter, fontSize) + gap;
-        } else {
-          font = defaultFont;
-          letterWidth = font.widthOfTextAtSize("  ", fontSize) + gap;
-        }
+        const isLatin = isLatinLike(letter);
+        const font = isLatin ? getFont(fontIndex) : defaultFont;
+        const letterWidth = isLatin
+          ? font.widthOfTextAtSize(letter, fontSize) + gap
+          : defaultFont.widthOfTextAtSize("  ", fontSize) + gap;
 
         currentPage.drawText(letter, {
           x: currentX,
@@ -86,7 +110,7 @@ const generatePDF = async (text: string, fontsize: number, lineheight: number, m
 
         fontIndex = Math.floor(Math.random() * embeddedFonts.length);
       }
-      currentX += defaultFont.widthOfTextAtSize('  ', fontSize) + gap;
+      currentX += defaultFont.widthOfTextAtSize("  ", fontSize) + gap;
     }
     currentY -= lineHeight;
     currentX = pageMargin;

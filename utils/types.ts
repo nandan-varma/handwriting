@@ -1,4 +1,3 @@
-
 export type Preset = {
   fontSize: number;
   lineHeight: number;
