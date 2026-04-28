@@ -23,53 +23,59 @@ export function Controls() {
     useContext(PDFContext);
   const { handlePresetChange } = useContext(ControlsContext);
   return (
-    <div className="relative z-20 flex flex-wrap items-center justify-between gap-3 border-b bg-card/80 px-4 py-3 shadow-sm backdrop-blur-sm">
-      <div className="flex items-center gap-3">
-        <span className="text-sm font-medium text-muted-foreground font-heading">
-          Preset
-        </span>
-        <Select
-          items={items}
-          defaultValue={"medium"}
-          onValueChange={(e) => {
-            if (e) handlePresetChange(e);
-          }}
-        >
-          <SelectTrigger className="w-[140px] h-9 rounded-md">
-            <SelectValue placeholder="Select" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectLabel>Presets</SelectLabel>
-              {items.map((item) => (
-                <SelectItem key={item.value} value={item.value}>
-                  {item.label}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      </div>
-      <div className="flex items-center gap-2">
-        <AdvancedControls />
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={handlePreviewPDF}
-          disabled={isGenerating}
-        >
-          <Eye className="size-4 mr-1.5" />
-          Preview
-        </Button>
-        <Button
-          variant="default"
-          size="sm"
-          onClick={handleDownloadPDF}
-          disabled={isGenerating}
-        >
-          <Download className="size-4 mr-1.5" />
-          Download
-        </Button>
+    <div className="relative z-20 border-b bg-card/80 shadow-sm backdrop-blur-sm">
+      <div className="flex flex-row gap-2 items-center md:justify-between px-3 py-2 md:px-4 md:py-3 md:gap-3 flex-wrap">
+        <div className="flex items-center gap-2 md:gap-3 min-w-0">
+          <span className="text-xs md:text-sm font-medium text-muted-foreground font-heading whitespace-nowrap">
+            Preset
+          </span>
+          <Select
+            items={items}
+            defaultValue={"medium"}
+            onValueChange={(e) => {
+              if (e) handlePresetChange(e);
+            }}
+          >
+            <SelectTrigger className="w-[120px] md:w-[140px] h-8 md:h-9 rounded-md">
+              <SelectValue placeholder="Select" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Presets</SelectLabel>
+                {items.map((item) => (
+                  <SelectItem key={item.value} value={item.value}>
+                    {item.label}
+                  </SelectItem>
+                ))}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="flex items-center gap-2 md:gap-2 ml-auto">
+          <AdvancedControls />
+          <Button
+            variant="outline"
+            size="sm"
+            title="Preview PDF"
+            onClick={handlePreviewPDF}
+            disabled={isGenerating}
+            className="h-8 md:h-9 px-2 md:px-4"
+          >
+            <Eye className="size-4" />
+            <span className="hidden md:inline md:ml-1.5">Preview</span>
+          </Button>
+          <Button
+            variant="default"
+            size="sm"
+            title="Download PDF"
+            onClick={handleDownloadPDF}
+            disabled={isGenerating}
+            className="h-8 md:h-9 px-2 md:px-4"
+          >
+            <Download className="size-4" />
+            <span className="hidden md:inline md:ml-1.5">Download</span>
+          </Button>
+        </div>
       </div>
     </div>
   );

@@ -13,7 +13,7 @@ export default function HandwrittenTextPage() {
       <Controls />
       <div className="flex-1 min-h-0">
         <div className="h-full md:hidden flex flex-col">
-          <div className="flex-1 min-h-0 border-b-2 border-border">
+          <div className="flex-1 min-h-0 border-b border-border">
             <PdfInput asPanel={false} />
           </div>
           <div className="flex-1 min-h-0">

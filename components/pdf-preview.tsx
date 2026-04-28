@@ -12,7 +12,7 @@ export function PdfPreview({ asPanel = true }: PdfPreviewProps) {
   const { pdfInfo, isGenerating } = useContext(PDFContext);
 
   const content = (
-    <>
+    <div className="h-full flex flex-col p-2 md:p-3">
       {isGenerating ? (
         <div className="h-full flex flex-col items-center justify-center gap-3 text-muted-foreground p-4">
           <Loader2 className="h-10 w-10 animate-spin" />
@@ -31,7 +31,7 @@ export function PdfPreview({ asPanel = true }: PdfPreviewProps) {
           <p className="text-sm">Click "Preview PDF" to generate</p>
         </div>
       )}
-    </>
+    </div>
   );
 
   if (!asPanel) return content;

@@ -30,72 +30,71 @@ export function AdvancedControls() {
     <Popover>
       <PopoverTrigger
         render={
-          <Button variant="outline" size="sm">
-            <SlidersHorizontal className="size-4 mr-1.5" />
-            Settings
+          <Button variant="outline" size="icon-sm" title="Settings">
+            <SlidersHorizontal className="size-4" />
           </Button>
         }
       />
-      <PopoverContent className="w-72" align="end">
+      <PopoverContent className="w-[calc(100vw-1rem)] sm:w-72 p-3 sm:p-4" align="end">
         <PopoverHeader>
           <PopoverTitle className="text-sm">Text Settings</PopoverTitle>
         </PopoverHeader>
-        <div className="grid gap-3 mt-3">
-          <div className="grid grid-cols-3 items-center gap-3">
+        <div className="grid gap-4 mt-4">
+          <div className="grid gap-2">
             <Label htmlFor="fontSize" className="text-xs">
               Font Size
             </Label>
             <Input
               id="fontSize"
-              className="col-span-2 h-8"
+              className="h-9 sm:h-8"
               type="number"
               value={fontSize}
               onChange={(e) => setFontSize(Number.parseInt(e.target.value))}
             />
           </div>
-          <div className="grid grid-cols-3 items-center gap-3">
+          <div className="grid gap-2">
             <Label htmlFor="lineHeight" className="text-xs">
               Line Height
             </Label>
             <Input
               id="lineHeight"
-              className="col-span-2 h-8"
+              className="h-9 sm:h-8"
               type="number"
               value={lineHeight}
               onChange={(e) => setLineHeight(Number.parseInt(e.target.value))}
             />
           </div>
-          <div className="grid grid-cols-3 items-center gap-3">
+          <div className="grid gap-2">
             <Label htmlFor="margin" className="text-xs">
               Margin
             </Label>
             <Input
               id="margin"
-              className="col-span-2 h-8"
+              className="h-9 sm:h-8"
               type="number"
               value={margin}
               onChange={(e) => setMargin(Number.parseInt(e.target.value))}
             />
           </div>
-          <div className="grid grid-cols-3 items-center gap-3">
+          <div className="grid gap-2">
             <Label htmlFor="gap" className="text-xs">
               Letter Gap
             </Label>
             <Input
               id="gap"
-              className="col-span-2 h-8"
+              className="h-9 sm:h-8"
               type="number"
               value={gap}
               onChange={(e) => setGap(Number.parseInt(e.target.value))}
             />
           </div>
-          <div className="grid grid-cols-3 items-center gap-3">
+          <div className="grid gap-2">
             <Label htmlFor="color" className="text-xs">
               Color
             </Label>
             <Input
               id="color"
-              className="col-span-2 h-8 p-1 cursor-pointer"
+              className="h-9 sm:h-8 p-1 cursor-pointer"
               type="color"
               value={color}
               onChange={(e) => {
