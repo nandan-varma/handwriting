@@ -1,4 +1,3 @@
-'use server'
 import { ResizableHandle, ResizablePanelGroup, } from "@/components/ui/resizable"
 import { PdfInput } from '@/components/pdf-input';
 import { PdfPreview } from '@/components/pdf-preview';

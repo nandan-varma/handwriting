@@ -1,16 +1,7 @@
 'use client'
 import { ResizablePanel } from "./ui/resizable";
-import { useContext, useMemo, useState } from "react";
+import { useContext, useState } from "react";
 import { PDFContext } from "./providers/pdf-provider";
-import { Document, Page, pdfjs } from 'react-pdf';
-import 'react-pdf/dist/Page/TextLayer.css';
-import 'react-pdf/dist/Page/AnnotationLayer.css';
-import { Button } from "./ui/button";
-
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-    'pdfjs-dist/build/pdf.worker.min.js',
-    import.meta.url,
-).toString();
 
 export function PdfPreview() {
     const { pdfInfo } = useContext(PDFContext);

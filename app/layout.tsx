@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import "@uploadthing/react/styles.css";
 import { PDFProvider } from "@/components/providers/pdf-provider";
@@ -19,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <script defer data-domain="writing.nandanvarma.com" src="https://plausible.nandanvarma.com/js/script.js"></script>
+      <Script defer data-domain="writing.nandanvarma.com" src="https://plausible.nandanvarma.com/js/script.js" />
       <body className={inter.className}>
         <ControlsProvider>
           <PDFProvider>
