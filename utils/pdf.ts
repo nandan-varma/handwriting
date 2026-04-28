@@ -1,5 +1,6 @@
 'use client'
 import { PDFDocument, rgb } from 'pdf-lib';
+import fontkit from '@pdf-lib/fontkit';
 
 function hexToRgb(hex: string) {
   var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -12,6 +13,7 @@ function hexToRgb(hex: string) {
 
 const generatePDF = async (text: string, fontsize: number, lineheight: number, margin: number, lettergap: number, color: string) => {
   const pdfDoc = await PDFDocument.create();
+  pdfDoc.registerFontkit(fontkit);
   const fontUrls = ['/fonts/QEDavidReid.ttf', '/fonts/QEVickyCaulfield.ttf', '/fonts/QETonyFlores.ttf', '/fonts/QEHerbertCooper.ttf', '/fonts/QEVRead.ttf'];
   const embeddedFonts = await Promise.all(fontUrls.map(url => fetch(url)
     .then(response => response.arrayBuffer()).
