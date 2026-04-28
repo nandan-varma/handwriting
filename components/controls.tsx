@@ -6,19 +6,20 @@ import { presets } from "@/utils/defaults";
 import { PDFContext } from "./providers/pdf-provider";
 import { Button } from "./ui/button";
 import { ControlsContext } from "./providers/controls-provider";
+import { Download, Eye, SlidersHorizontal } from "lucide-react";
 
 const items = Object.keys(presets).map((key) => ({ label: key, value: key }));
 
 export function Controls() {
-    const { handlePreviewPDF, handleDownloadPDF } = useContext(PDFContext);
+    const { handlePreviewPDF, handleDownloadPDF, isGenerating } = useContext(PDFContext);
     const { handlePresetChange } = useContext(ControlsContext);
     return (
-        <>
-            <div className="pt-10 flex items-center gap-2 font-semibold justify-center">
-                <h2>Preset</h2>
-                <Select items={items} defaultValue={"medium"} onValueChange={(e) => { handlePresetChange(e) }}>
-                    <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Select a Preset" />
+        <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 border-b bg-card/50 backdrop-blur-sm">
+            <div className="flex items-center gap-3">
+                <span className="text-sm font-medium text-muted-foreground">Preset</span>
+                <Select items={items} defaultValue={"medium"} onValueChange={(e) => { if (e) handlePresetChange(e) }}>
+                    <SelectTrigger className="w-[140px] h-9">
+                        <SelectValue placeholder="Select" />
                     </SelectTrigger>
                     <SelectContent>
                         <SelectGroup>
@@ -32,11 +33,27 @@ export function Controls() {
                     </SelectContent>
                 </Select>
             </div>
-            <div className="py-5 px-5 flex flex-row items-center justify-center gap-4 font-semibold">
+            <div className="flex items-center gap-2">
                 <AdvancedControls />
-                <Button variant={"outline"} onClick={handleDownloadPDF}>Download PDF</Button>
-                <Button variant={"outline"} onClick={handlePreviewPDF}>Preview PDF</Button>
+                <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={handlePreviewPDF}
+                    disabled={isGenerating}
+                >
+                    <Eye className="size-4 mr-1.5" />
+                    Preview
+                </Button>
+                <Button 
+                    variant="default" 
+                    size="sm" 
+                    onClick={handleDownloadPDF}
+                    disabled={isGenerating}
+                >
+                    <Download className="size-4 mr-1.5" />
+                    Download
+                </Button>
             </div>
-        </>
+        </div>
     )
 }
