@@ -1,8 +1,8 @@
 "use client";
-import { DefaultText, presets } from "@/utils/defaults";
-import type { Preset } from "@/utils/types";
 import type React from "react";
 import { createContext, useState } from "react";
+import { DefaultText, presets } from "@/utils/defaults";
+import type { Preset } from "@/utils/types";
 
 const defaultPreset: Preset = presets.small ??
   presets.medium ?? { fontSize: 14, lineHeight: 14, margin: 24, gap: 5 };

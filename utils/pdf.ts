@@ -147,4 +147,5 @@ const generatePDF = async (
 
   return pdfBytes;
 };
+
 export { generatePDF };

@@ -1,4 +1,6 @@
 "use client";
+import { SlidersHorizontal } from "lucide-react";
+import { useContext } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {
@@ -8,8 +10,6 @@ import {
   PopoverTitle,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { SlidersHorizontal } from "lucide-react";
-import { useContext } from "react";
 import { ControlsContext } from "./providers/controls-provider";
 import { Input } from "./ui/input";
 
@@ -35,7 +35,10 @@ export function AdvancedControls() {
           </Button>
         }
       />
-      <PopoverContent className="w-[calc(100vw-1rem)] sm:w-72 p-3 sm:p-4" align="end">
+      <PopoverContent
+        className="w-[calc(100vw-1rem)] sm:w-72 p-3 sm:p-4"
+        align="end"
+      >
         <PopoverHeader>
           <PopoverTitle className="text-sm">Text Settings</PopoverTitle>
         </PopoverHeader>
@@ -49,7 +52,7 @@ export function AdvancedControls() {
               className="h-9 sm:h-8"
               type="number"
               value={fontSize}
-              onChange={(e) => setFontSize(Number.parseInt(e.target.value))}
+              onChange={(e) => setFontSize(Number.parseInt(e.target.value, 10))}
             />
           </div>
           <div className="grid gap-2">
@@ -61,7 +64,9 @@ export function AdvancedControls() {
               className="h-9 sm:h-8"
               type="number"
               value={lineHeight}
-              onChange={(e) => setLineHeight(Number.parseInt(e.target.value))}
+              onChange={(e) =>
+                setLineHeight(Number.parseInt(e.target.value, 10))
+              }
             />
           </div>
           <div className="grid gap-2">
@@ -73,7 +78,7 @@ export function AdvancedControls() {
               className="h-9 sm:h-8"
               type="number"
               value={margin}
-              onChange={(e) => setMargin(Number.parseInt(e.target.value))}
+              onChange={(e) => setMargin(Number.parseInt(e.target.value, 10))}
             />
           </div>
           <div className="grid gap-2">
@@ -85,7 +90,7 @@ export function AdvancedControls() {
               className="h-9 sm:h-8"
               type="number"
               value={gap}
-              onChange={(e) => setGap(Number.parseInt(e.target.value))}
+              onChange={(e) => setGap(Number.parseInt(e.target.value, 10))}
             />
           </div>
           <div className="grid gap-2">
